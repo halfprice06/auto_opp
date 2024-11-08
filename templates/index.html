@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Analysis Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="/static/app.js" defer></script>
+    <!-- Add Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Add Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <div class="pdf-section">
+            <div class="pdf-header">
+                <label for="file-upload" class="file-upload-label">
+                    <span class="material-icons">upload_file</span>
+                    <span id="file-name">Choose PDF</span>
+                </label>
+                <input id="file-upload" type="file" name="file" accept="application/pdf">
+            </div>
+            <embed id="pdf-viewer" class="pdf-viewer" src="" type="application/pdf">
+        </div>
+        
+        <div class="chat-section">
+            <div class="chat-header">
+                <h2>PDF Analysis Assistant</h2>
+            </div>
+            
+            <div class="chat-messages" id="response">
+                <!-- Messages will appear here -->
+                <div class="welcome-message">
+                    <p>👋 Hello! I'm your PDF analysis assistant. Upload a PDF on the left and ask me anything about it.</p>
+                </div>
+                <div class="processing-message">
+                    <p>📄 Processing your PDF and analyzing your question...</p>
+                </div>
+            </div>
+
+            <form class="chat-input-form"
+                hx-post="/process"
+                hx-encoding="multipart/form-data"
+                hx-target="#response"
+                hx-swap="beforeend">
+                <input 
+                    type="hidden" 
+                    name="conversation_id" 
+                    id="conversation-id"
+                    value="">
+                <textarea 
+                    name="instruction" 
+                    placeholder="Ask a question about the PDF..."
+                    rows="1"
+                    required></textarea>
+                <button type="submit">
+                    <span class="material-icons">send</span>
+                </button>
+                <div class="htmx-indicator">
+                    <div class="spinner"></div>
+                    <span class="loading-text">Analyzing...</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,65 @@
+
+How to use PDFs in the Messages API
+Here’s a simple example demonstrating how to use PDFs in the Messages API:
+
+
+Shell
+
+Python
+
+TypeScript
+
+import anthropic
+import base64
+import httpx
+
+# First fetch the file
+pdf_url = "https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf"
+pdf_data = base64.standard_b64encode(httpx.get(pdf_url).content).decode("utf-8")
+
+
+# Finally send the API request
+client = anthropic.Anthropic()
+message = client.beta.messages.create(
+    model="claude-3-5-sonnet-20241022",
+    betas=["pdfs-2024-09-25"],
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "document",
+                    "source": {
+                        "type": "base64",
+                        "media_type": "application/pdf",
+                        "data": pdf_data
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "Which model has the highest human preference win rates across each use-case?"
+                }
+            ]
+        }
+    ],
+)
+
+print(message.content)
+Here are a few other examples to help you get started:
+
+
+PDF support with prompt caching
+
+
+PDF support with the Message Batches API
+
+​
+Best practices for PDF analysis
+Ensure text is clear and legible.
+Rotate pages to the proper orientation.
+When referring to page numbers, use the logical number (the number reported by your PDF viewer) rather than the physical page number (the number visible on the page)
+Use standard fonts.
+Place PDFs before text in requests.
+Split very large PDFs into smaller chunks when limits are exceeded.
+Use prompt caching for repeated analysis of the same document.

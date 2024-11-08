@@ -1,0 +1,20 @@
+<div class="message user-message">
+    {{ instruction }}
+</div>
+<div class="message assistant-message">
+    {{ response_text }}
+</div>
+<script>
+    (function() {
+        const conversationIdInput = document.getElementById('conversation-id');
+        if (conversationIdInput && '{{ conversation_id }}') {
+            console.log('Setting conversation_id to:', '{{ conversation_id }}');
+            conversationIdInput.value = '{{ conversation_id }}';
+        }
+        // Scroll to bottom after new messages are added
+        const messagesContainer = document.querySelector('.chat-messages');
+        if (messagesContainer) {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    })();
+</script> 
